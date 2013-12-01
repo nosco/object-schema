@@ -8,6 +8,8 @@ It can be used for more than just creating MongoDB schemas in node.js.
 
 The idea is to use the same code to validate client side form data (soon).
 
+You can learn how it works, by reading the examples.
+
 ### This is an early BETA version
 
 As soon as the module has shown it's worth and stability on a live system, it will be marked as version >= 1.0.0.
