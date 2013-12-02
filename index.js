@@ -107,7 +107,6 @@ ObjectSchema.prototype.validate = function(dataObject, errors, callback) {
   if(result == {}) result = false;
   if(errors.length) { this.lastErrors = errors; }
 
-
   /** Run run through the fields that are not in the schema */
   for(var field in testObject) {
     if(!this.definition[field] && !this.definition['*']) {
@@ -123,6 +122,7 @@ ObjectSchema.prototype.validate = function(dataObject, errors, callback) {
   if(this.strictness === 'strict' && errors.length) {
     result = false;
   }
+  if(!errors.length) { errors = null; }
 
   if(callback) { callback(errors, result); }
   else { return result; }

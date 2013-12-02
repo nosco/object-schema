@@ -237,7 +237,7 @@ describe('ObjectSchema', function() {
     testSchema.validate(testObject, function(errors, result) {
       assert.notEqual(result, false, 'testSchema result should not be false');
       assert.isUndefined(result.notDefined, 'testSchema should throw out undefined fields');
-      assert.equal(errors.length, 0, 'testSchema lives up to ObjectSchema');
+      assert.equal(errors, null, 'testSchema lives up to ObjectSchema');
       done();
     });
   });
@@ -247,7 +247,7 @@ describe('ObjectSchema', function() {
     testSchema.validate(testObject, function(errors, result) {
       assert.notEqual(result, false, 'testSchema should not return false');
       assert.equal(result.notDefined, "ignore or throw out", 'testSchema should leave undefined fields alone');
-      assert.equal(errors.length, 0, 'testSchema lives up to ObjectSchema');
+      assert.equal(errors, null, 'testSchema lives up to ObjectSchema');
       done();
     });
   });
