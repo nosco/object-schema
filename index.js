@@ -18,7 +18,7 @@ default: a default value to set, if the field has no value.
 regex: a regular expression to match
 */
 
-var ObjectId = require('bson').ObjectID;
+var ObjectId = require('mongodb').ObjectID;
 require('extend-string');
 var clone = require('clone');
 
