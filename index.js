@@ -18,34 +18,6 @@ default: a default value to set, if the field has no value.
 regex: a regular expression to match
 */
 
-/*
-What is needed in a schema check?
-
-v Field type - return error if not correct
-v Field instanceOf - return error if not correct
-v Field filters - like trim/slug/camelCase/... (e.g. filters: trim or filters: [ 'trim', 'parseInt' ])
-v Field required - return error if not set
-v Field default value
-v Field to ignore
-v Field regex
-v Field with a value in a "check array" or "check object"
-Field that is comprised by other fields
-v Validators and custom validators - validators are strings 'camelCase', custom are function references
-v It should be possible to have several validators
-v Sub schemas
-
-Should work in the browser (backbone, ...)
-Strict mode for only allowing defined fields
-? Field dependants... This field is required for this field to be valid...
-  ??????  This could be used to validate password1 and if password1 is valid, then password2 can be validated
-*/
-
-/*
-TODO:
- v Manipulating functions
- v Run through fields not defined in the definition
- - Act differently for each setting of strictness
-*/
 var ObjectId = require('bson').ObjectID;
 require('extend-string');
 var clone = require('clone');
@@ -57,13 +29,6 @@ var ObjectSchema = function(schemaDefinition, options) {
   this.definition = schemaDefinition;
 };
 module.exports = ObjectSchema;
-
-// 2 new definitions:
-// notInSchema = strict: error, relaxed: ignore, loose: let through
-// inSchemaNoMatch = strict: error, relaxed: try to correct else error, loose: try to correct else ignore
-
-// This should be per field, not the entire schema - it should have a fallback,
-// but in general, this should be up to the field definition.
 
 /**
  * Schema strictness
