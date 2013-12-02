@@ -31,12 +31,22 @@ var ObjectSchema = function(schemaDefinition, options) {
 };
 module.exports = ObjectSchema;
 
-
 /**
  * @todo A schema settings validator is needed here...
  */
 ObjectSchema.prototype.setField = function(field, settings) {
   this.definition[field] = settings;
+};
+ObjectSchema.prototype.setFields = function(fields) {
+  for(var field in fields) {
+    this.definition[field] = fields[field];
+  }
+};
+ObjectSchema.prototype.mergeFields = function(fields) {
+  for(var field in fields) {
+    this.addSettings(field, fields[field]);
+  }
+  this.definition = this._mergeObjects(this.definition, fields);
 };
 ObjectSchema.prototype.addSettings = function(field, settings) {
   if(!this.definition[field]) {
