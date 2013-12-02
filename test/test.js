@@ -12,7 +12,7 @@ var testObject = {
   "authorImage" : "/img/thumb-529327e2675916232d000004.png",
   "authorFirstName": "Some",
   "authorLastName": "Name",
-  "author_id" : ObjectId('519b983d78c2bde0dc000012'),
+  "author_id" : '519b983d78c2bde0dc000012',
   "counters" : {
     "books" : 5
   },
@@ -208,7 +208,6 @@ describe('ObjectSchema', function() {
       counters: { ignored: true },
       authorBiography: { ignored: true },
       authorImage: { ignored: true },
-      author_id: { ignored: true },
       author: { instanceOf: DBRef },
       authorFullName: { required: true, filters: [testAuthorFullName] },
       authorFirstName: { ignored: true },
@@ -216,6 +215,10 @@ describe('ObjectSchema', function() {
       flags: { objectSchema: flagsSchema },
       template: { objectSchema: templateSchema }
     }, {  });
+
+    // Testing setting and adding to a field...
+    testSchema.setField('author_id', { required: true, instanceOf: ObjectId });
+    testSchema.addSettings('author_id', { filters: ['objectId'] });
 
     assert.instanceOf(testSchema, ObjectSchema, 'testSchema is an instance of ObjectSchema');
   });

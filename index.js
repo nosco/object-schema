@@ -26,9 +26,25 @@ var clone = require('clone');
  * @todo Validate the schema - e.g. required and ignored not set on the same field
  */
 var ObjectSchema = function(schemaDefinition, options) {
+  if(options && options.strictness) this.strictness = options.strictness;
   this.definition = schemaDefinition;
 };
 module.exports = ObjectSchema;
+
+
+/**
+ * @todo A schema settings validator is needed here...
+ */
+ObjectSchema.prototype.setField = function(field, settings) {
+  this.definition[field] = settings;
+};
+ObjectSchema.prototype.addSettings = function(field, settings) {
+  if(!this.definition[field]) {
+    this.definition[field] = settings;
+  } else {
+    this.definition[field] = this._mergeObjects(this.definition[field], settings);
+  }
+};
 
 /**
  * Schema strictness
@@ -282,4 +298,18 @@ ObjectSchema.prototype.filterObjectId = function(field, dataObject) {
     }
   }
   return objectId
+};
+
+
+/*************\
+ * UTILITIES *
+\*************/
+ObjectSchema.prototype._mergeObjects = function() {
+  var newObject = {};
+  for(var objectIndex in arguments) {
+    for(var objectKey in arguments[objectIndex]) {
+      newObject[objectKey] = arguments[objectIndex][objectKey];
+    }
+  }
+  return newObject;
 };
