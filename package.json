@@ -1,6 +1,6 @@
 {
   "name": "object-schema",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Object filter/schema for filtering, checking and validating javascript objects",
   "keywords":[
     "json",

@@ -138,6 +138,10 @@ function(field, definition, testObject, errors) {
     return;
   }
 
+  if(definition.optional && (typeof testObject[field] === 'undefined')) {
+    return;
+  }
+
   if(definition.objectSchema && typeof definition.objectSchema === 'object') {
     if(!(definition.objectSchema instanceof ObjectSchema)) {
       definition.objectSchema = new ObjectSchema(definition.objectSchema);
