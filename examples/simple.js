@@ -15,6 +15,7 @@ testSchema = new ObjectSchema({
   _id: { required: true, instanceOf: ObjectId },
   _version: { required: true, type: 'number' },
   description: { required: true, filters: [ 'trim' ] },
+  notThere: { optional: true },
   nonsense: { ignored: true }
 }, {  });
 

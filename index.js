@@ -138,7 +138,7 @@ function(field, definition, testObject, errors) {
     return;
   }
 
-  if(definition.optional && (typeof testObject[field] === 'undefined')) {
+  if(definition.optional && (!testObject || typeof testObject[field] === 'undefined')) {
     return;
   }
 
