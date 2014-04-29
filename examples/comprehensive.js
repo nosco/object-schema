@@ -98,7 +98,7 @@ testSchema = new ObjectSchema({
   authorFullName: { required: true, filters: [testAuthorFullName] },
   authorFirstName: { ignored: true },
   authorLastName: { ignored: true },
-  notThere: { optional: true },
+  nonExising: { optional: true }, // optional is only valid with strict
   flags: { objectSchema: flagsSchema },
   template: { objectSchema: templateSchema }
 }, {  });
