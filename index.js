@@ -137,8 +137,8 @@ function(field, definition, testObject, errors) {
     return;
   }
 
-
   if((this.strictness !== 'strict' || definition.optional) &&
+      !definition.required &&
       (!testObject || typeof testObject[field] === 'undefined')) {
     return;
   }
