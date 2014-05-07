@@ -82,7 +82,6 @@ ObjectSchema.prototype.validate = function(dataObject, errors, callback) {
       errors = [];
     }
   }
-
   errors = errors || [];
 
   var testObject = clone(dataObject);
@@ -104,10 +103,10 @@ ObjectSchema.prototype.validate = function(dataObject, errors, callback) {
     }
   };
 
-  if(result == {}) result = false;
+  if(Object.keys(result).length == 0) result = false;
   if(errors.length) { this.lastErrors = errors; }
 
-  /** Run run through the fields that are not in the schema */
+  /** Run through the fields that are not in the schema */
   for(var field in testObject) {
     if(!this.definition[field] && !this.definition['*']) {
       if(this.strictness === 'strict') {
