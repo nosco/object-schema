@@ -1,8 +1,8 @@
 {
   "name": "object-schema",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Object filter/schema for filtering, checking and validating javascript objects",
-  "keywords":[
+  "keywords": [
     "json",
     "objects",
     "mongodb",
@@ -10,11 +10,13 @@
     "schema"
   ],
   "author": "Dan Larsen",
-  "maintainers": [{
-    "name": "Dan Larsen",
-    "email": "dan@techba.se",
-    "url": "http://github.com/morphar"
-  }],
+  "maintainers": [
+    {
+      "name": "Dan Larsen",
+      "email": "dan@techba.se",
+      "url": "http://github.com/morphar"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "http://github.com/nosco/object-schema.git"

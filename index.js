@@ -82,7 +82,6 @@ ObjectSchema.prototype.validate = function(dataObject, errors, callback) {
       errors = [];
     }
   }
-
   errors = errors || [];
 
   var testObject = clone(dataObject);
@@ -104,10 +103,7 @@ ObjectSchema.prototype.validate = function(dataObject, errors, callback) {
     }
   };
 
-  if(result == {}) result = false;
-  if(errors.length) { this.lastErrors = errors; }
-
-  /** Run run through the fields that are not in the schema */
+  /** Run through the fields that are not in the schema */
   for(var field in testObject) {
     if(!this.definition[field] && !this.definition['*']) {
       if(this.strictness === 'strict') {
@@ -117,6 +113,9 @@ ObjectSchema.prototype.validate = function(dataObject, errors, callback) {
       }
     }
   }
+
+  if(Object.keys(result).length == 0) result = false;
+  if(errors.length) { this.lastErrors = errors; }
 
   /** If there is anything defined as an error - don't return the result! */
   if(this.strictness === 'strict' && errors.length) {
@@ -138,8 +137,8 @@ function(field, definition, testObject, errors) {
     return;
   }
 
-
   if((this.strictness !== 'strict' || definition.optional) &&
+      !definition.required &&
       (!testObject || typeof testObject[field] === 'undefined')) {
     return;
   }
@@ -329,3 +328,4 @@ ObjectSchema.prototype._mergeObjects = function() {
   }
   return newObject;
 };
+
