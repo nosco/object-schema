@@ -140,7 +140,9 @@ function(field, definition, testObject, errors) {
   if((this.strictness !== 'strict' || definition.optional) &&
       !definition.required &&
       (!testObject || typeof testObject[field] === 'undefined')) {
-    return;
+
+    if(definition.default) return definition.default;
+    else return;
   }
 
   if(definition.objectSchema && typeof definition.objectSchema === 'object') {
@@ -243,7 +245,7 @@ function(field, definition, testObject, errors) {
 ObjectSchema.prototype.definitionDefault =
 function(field, definition, testObject, errors) {
   /** If no value is found, even after running filters, set the default */
-  if(definition.default && !testObject[field]) {
+  if(definition.default && typeof testObject[field] === 'undefined') {
     testObject[field] = definition.default;
   }
 };

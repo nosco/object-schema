@@ -100,7 +100,8 @@ testSchema = new ObjectSchema({
   authorLastName: { ignored: true },
   nonExising: { optional: true }, // optional is only valid with strict
   flags: { objectSchema: flagsSchema },
-  template: { objectSchema: templateSchema }
+  template: { objectSchema: templateSchema },
+  unsetField: { default: { my: { little: 'object' } } }
 }, {  });
 
 
