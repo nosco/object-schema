@@ -39,13 +39,13 @@ var testObject = {
   "authorImage" : "/img/thumb-529327e2675916232d000004.png",
   "authorFirstName": "Some",
   "authorLastName": "Name",
-  "author_id" : ObjectId('519b983d78c2bde0dc000012'),
+  "author_id" : ObjectId('519b983d78c2bde0dc200012'),
   "counters" : {
     "books" : 5
   },
   "description" : "Some description ",
-  "flags" : { "votes" : [ '519b983d78c2bde0dc000012' ],
-              "likes" : [ ObjectId('519b983d78c2bde0dc000112'),
+  "flags" : { "votes" : [ '519b983d78c2bde0dc000011' ],
+              "likes" : [ '519b983d78c2bde0dc000112',
                           ObjectId('519b983d78c2bde0dc000113') ]
             },
   "image" : "/img/img-529327b9675916232d000001.jpg",
@@ -73,14 +73,16 @@ templateSchema = new ObjectSchema({
 // This is a new schema to match each of the arrays values
 // The template above, could also have been constructed like this
 // Flags looks like this:
-//   "flags" : { "votes" : [ '519b983d78c2bde0dc000012' ],
+//   "flags" : { "votes" : [ '519b983d78c2bde0dc000011' ],
 //               "likes" : [ '519b983d78c2bde0dc000112' ] }
 // Do you see this pattern?:
 //      *           *       object, ObjectId, 'objectId'
 flagsSchema = new ObjectSchema({
-  '*': { objectSchema: { '*': { type: 'object',
-  instanceOf: ObjectId,
-  filters: ['objectId'] } } }
+  '*': {
+    objectSchema: {
+      '*': { type: 'object', instanceOf: ObjectId, filters: ['objectId'] }
+    }
+  }
 });
 
 
