@@ -86,7 +86,8 @@ ObjectSchema.prototype.validate = function(dataObject, errors, callback) {
 
   var testObject = clone(dataObject);
 
-  var result = {};
+  if(testObject instanceof Array) var result = [];
+  else var result = {};
 
   for(var field in this.definition) {
     var definition = this.definition[field];
@@ -124,7 +125,7 @@ ObjectSchema.prototype.validate = function(dataObject, errors, callback) {
   if(!errors.length) { errors = null; }
 
   if(callback) { callback(errors, result); }
-  else { return result; }
+  return result;
 };
 
 
@@ -150,8 +151,11 @@ function(field, definition, testObject, errors) {
       definition.objectSchema = new ObjectSchema(definition.objectSchema);
     }
     var subErrors = [];
-    if(!definition.objectSchema.validate(testObject[field], subErrors)) {
+    var result = definition.objectSchema.validate(testObject[field], subErrors);
+    if(!result) {
       passed = false;
+    } else {
+      testObject[field] = result;
     }
     if(subErrors.length) {
       for(var i in subErrors) {
