@@ -7,7 +7,7 @@ var testObject = {
   "_id" : ObjectId('529327e2675916232d000004'),
   "_version" : 3,
   "status" : "published",
-  "author" : new DBRef(),
+  "author" : { _id: '519b983d78c2bde0dc000012', collection: 'authors' },
   "authorBiography" : null,
   "authorImage" : "/img/thumb-529327e2675916232d000004.png",
   "authorFirstName": "Some",
@@ -54,6 +54,10 @@ describe('ObjectSchema\'s individual validator methods', function() {
                         filters: ['trim', 'objectId'] };
   var _idTestObject = { _id: '529327b9675916232d000001' };
 
+  var dbRefDefinition = { required: true, type: 'object', instanceOf: DBRef,
+                          filters: ['DBRef'] };
+  var dbRefTestObject = new DBRef('authors', ObjectId('519b983d78c2bde0dc000012'));
+
   var definition = { required: true, type: 'object', instanceOf: ObjectId,
                      filters: [ 'trim', testLC ],
                      in: [ 'published', 'draft' ],
@@ -65,6 +69,15 @@ describe('ObjectSchema\'s individual validator methods', function() {
       var errors = [];
       ObjectSchema.prototype.definitionFilters('_id', _idDefinition, _idTestObject, errors);
       assert.equal(true, _idTestObject['_id'].equals(ObjectId('529327b9675916232d000001')), 'result should be a valid ObjectId');
+    });
+  });
+
+  describe('ObjectSchema.definitionFilters (DBRef) - setting:filters', function() {
+    it('should return correct DBRef after filters', function() {
+      var errors = [];
+      ObjectSchema.prototype.definitionFilters('author', dbRefDefinition, testObject, errors);
+      assert.equal(true, dbRefTestObject['oid'].equals(ObjectId('519b983d78c2bde0dc000012')), 'result should have a valid ObjectId');
+      assert.equal(dbRefTestObject['namespace'], 'authors', 'result should have a valid namespace');
     });
   });
 
