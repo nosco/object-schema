@@ -19,6 +19,7 @@ regex: a regular expression to match
 */
 
 var ObjectId = require('mongodb').ObjectID;
+var DBRef = require('mongodb').DBRef;
 require('extend-string');
 var clone = require('clone');
 
@@ -318,7 +319,25 @@ ObjectSchema.prototype.filterObjectId = function(field, dataObject) {
     } catch(e) {
     }
   }
-  return objectId
+  return objectId;
+};
+
+ObjectSchema.prototype.filterDbref =
+ObjectSchema.prototype.filterDbRef =
+ObjectSchema.prototype.filterDBRef = function(field, dataObject) {
+  var dbRef = dataObject[field];
+  if(!(dbRef instanceof DBRef)) {
+    try {
+      var namespace = dbRef.namespace || dbRef.collection || dbRef.$ref;
+      var oid = dbRef.oid || dbRef._id || dbRef.id || dbRef.$id;
+      var db = dbRef.db || dbRef.$db || dbRef.database || '';
+      oid = ObjectId(''+oid);
+
+      dbRef = new DBRef(namespace, oid, db);
+    } catch(e) {
+    }
+  }
+  return dbRef;
 };
 
 
