@@ -333,17 +333,25 @@ ObjectSchema.prototype.filterDbref =
 ObjectSchema.prototype.filterDbRef =
 ObjectSchema.prototype.filterDBRef = function(field, dataObject) {
   var dbRef = dataObject[field];
-  if(!(dbRef instanceof DBRef)) {
-    try {
-      var namespace = dbRef.namespace || dbRef.collection || dbRef.$ref;
-      var oid = dbRef.oid || dbRef._id || dbRef.id || dbRef.$id;
-      var db = dbRef.db || dbRef.$db || dbRef.database || '';
-      oid = ObjectId(''+oid);
 
-      dbRef = new DBRef(namespace, oid, db);
-    } catch(e) {
-    }
+  if(dbRef instanceof DBRef) {
+    return dbRef;
   }
+
+  if(dbRef.constructor.name === 'DBRef') {
+    return dbRef;
+  }
+
+  try {
+    var namespace = dbRef.namespace || dbRef.collection || dbRef.$ref;
+    var oid = dbRef.oid || dbRef._id || dbRef.id || dbRef.$id;
+    var db = dbRef.db || dbRef.$db || dbRef.database || '';
+    oid = ObjectId(''+oid);
+
+    dbRef = new DBRef(namespace, oid, db);
+  } catch(e) {
+  }
+
   return dbRef;
 };
 
