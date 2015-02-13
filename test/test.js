@@ -41,6 +41,10 @@ var testAuthorFullName = function(field, data) {
   return str;
 };
 
+var createDBRef = function(collectionName, idFieldName, field, data) {
+  return new DBRef(collectionName, data[idFieldName]);
+};
+
 // Helper to set strictness on all schemas at the same time
 var setAllStrictnesses = function(strictness) {
   templateSchema.setStrictness(strictness);
@@ -221,7 +225,7 @@ describe('ObjectSchema', function() {
       counters: { ignored: true },
       authorBiography: { ignored: true },
       authorImage: { ignored: true },
-      author: { instanceOf: DBRef },
+      author: { required: true, filters: [createDBRef.bind(null, 'authors', 'author_id')], instanceOf: DBRef },
       authorFullName: { required: true, filters: [testAuthorFullName] },
       authorFirstName: { ignored: true },
       authorLastName: { ignored: true },
