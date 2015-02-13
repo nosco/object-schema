@@ -77,6 +77,8 @@ ObjectSchema.prototype.setStrictness = function(strictness) {
  * We don't want to pass a value, then change it to a non-passable value.
  */
 ObjectSchema.prototype.validate = function(dataObject, errors, callback) {
+  this.lastErrors = [];
+
   if(arguments.length < 3) {
     if(typeof errors === 'function') {
       callback = errors;
