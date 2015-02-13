@@ -87,6 +87,11 @@ ObjectSchema.prototype.validate = function(dataObject, errors, callback) {
   }
   errors = errors || [];
 
+  if(!dataObject) {
+    callback([new Error('No dataObject supplied')], null);
+    return false;
+  }
+
   var testObject = clone(dataObject);
 
   if(testObject instanceof Array) var result = [];
