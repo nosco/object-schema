@@ -310,6 +310,7 @@ function(field, definition, testObject, errors) {
 /***********\
  * FILTERS *
 \***********/
+ObjectSchema.prototype.filterObjectID =
 ObjectSchema.prototype.filterObjectId = function(field, dataObject) {
   var objectId = dataObject[field];
   if(!(objectId instanceof ObjectId)) {
