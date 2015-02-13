@@ -313,12 +313,19 @@ function(field, definition, testObject, errors) {
 ObjectSchema.prototype.filterObjectID =
 ObjectSchema.prototype.filterObjectId = function(field, dataObject) {
   var objectId = dataObject[field];
-  if(!(objectId instanceof ObjectId)) {
-    try {
-      objectId = ObjectId('' + objectId);
-    } catch(e) {
-    }
+
+  if(objectId instanceof ObjectId) {
+    return objectId;
   }
+
+  if(objectId.constructor.name.match(/^ObjectI(d|D)$/)) {
+    return objectId;
+  }
+
+  if(ObjectId.isValid(''+objectId)) {
+    return new ObjectId(''+objectId);
+  }
+
   return objectId;
 };
 
