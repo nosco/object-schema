@@ -21,6 +21,8 @@ var testObject = {
               "likes" : [ ObjectId('519b983d78c2bde0dc000112'),
                           ObjectId('519b983d78c2bde0dc000113') ]
             },
+  "tag_ids" : [ ObjectId('519b983d78c2bde0dc000112'),
+                ObjectId('519b983d78c2bde0dc000113') ],
   "image" : "/img/img-529327b9675916232d000001.jpg",
   "template" : [ { "title" : "Title", "id" : "title", "description" : "some some" },
                  { "title" : "Title 2", "id" : "title2", "description" : "different" }],
@@ -43,6 +45,15 @@ var testAuthorFullName = function(field, data) {
 
 var createDBRef = function(collectionName, idFieldName, field, data) {
   return new DBRef(collectionName, data[idFieldName]);
+};
+
+var createDBRefs = function(collectionName, idFieldName, field, data) {
+  var tagIds = data[idFieldName];
+  var DBRefs = [];
+  for(var i in tagIds) {
+    DBRefs.push(new DBRef(collectionName, tagIds[i]));
+  }
+  return DBRefs;
 };
 
 // Helper to set strictness on all schemas at the same time
@@ -226,6 +237,7 @@ describe('ObjectSchema', function() {
       authorBiography: { ignored: true },
       authorImage: { ignored: true },
       author: { required: true, filters: [createDBRef.bind(null, 'authors', 'author_id')], instanceOf: DBRef },
+      tags: { required: true, filters: [createDBRefs.bind(null, 'tags', 'tag_ids')] },
       authorFullName: { required: true, filters: [testAuthorFullName] },
       authorFirstName: { ignored: true },
       authorLastName: { ignored: true },
@@ -244,7 +256,7 @@ describe('ObjectSchema', function() {
     setAllStrictnesses('strict');
     testSchema.validate(testObject, function(errors, result) {
       assert.equal(result, false, 'testSchema result should be false');
-      assert.lengthOf(errors, 5, 'testSchema should have 27 errors');
+      assert.lengthOf(errors, 6, 'testSchema should have 27 errors');
       done();
     });
   });

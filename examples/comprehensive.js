@@ -17,6 +17,19 @@ var testAuthorFullName = function(field, data) {
   return str;
 };
 
+var createDBRef = function(collectionName, idFieldName, field, data) {
+  return new DBRef(collectionName, data[idFieldName]);
+};
+
+var createDBRefs = function(collectionName, idFieldName, field, data) {
+  var tagIds = data[idFieldName];
+  var DBRefs = [];
+  for(var i in tagIds) {
+    DBRefs.push(new DBRef(collectionName, tagIds[i]));
+  }
+  return DBRefs;
+};
+
 // Just a helper to set strictness on all schemas at the same time
 var setAllStrictnesses = function(strictness) {
   templateSchema.setStrictness(strictness);
@@ -34,7 +47,7 @@ var testObject = {
   "_id" : ObjectId('529327e2675916232d000004'),
   "_version" : 3,
   "status" : "published",
-  "author" : new DBRef(),
+  "author" : { _id: '519b983d78c2bde0dc000012', collection: 'authors' },
   "authorBiography" : null,
   "authorImage" : "/img/thumb-529327e2675916232d000004.png",
   "authorFirstName": "Some",
@@ -48,6 +61,8 @@ var testObject = {
               "likes" : [ '519b983d78c2bde0dc000112',
                           ObjectId('519b983d78c2bde0dc000113') ]
             },
+  "tag_ids" : [ ObjectId('519b983d78c2bde0dc000112'),
+                ObjectId('519b983d78c2bde0dc000113') ],
   "image" : "/img/img-529327b9675916232d000001.jpg",
   "template" : [ { "title" : "Title", "id" : "title", "description" : "some some" },
                  { "title" : "Title 2", "id" : "title2", "description" : "different" }],
@@ -96,12 +111,13 @@ testSchema = new ObjectSchema({
   authorBiography: { ignored: true },
   authorImage: { ignored: true },
   author_id: { ignored: true },
-  author: { instanceOf: DBRef },
+  author: { required: true, filters: [createDBRef.bind(null, 'authors', 'author_id')], instanceOf: DBRef },
   authorFullName: { required: true, filters: [testAuthorFullName] },
   authorFirstName: { ignored: true },
   authorLastName: { ignored: true },
   nonExising: { optional: true }, // optional is only valid with strict
   flags: { objectSchema: flagsSchema },
+  tags: { required: true, filters: [createDBRefs.bind(null, 'tags', 'tag_ids')] },
   template: { objectSchema: templateSchema },
   unsetField: { default: { my: { little: 'object' } } }
 }, {  });
