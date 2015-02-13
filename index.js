@@ -116,7 +116,6 @@ ObjectSchema.prototype.validate = function(dataObject, errors, callback) {
     }
   }
 
-  if(Object.keys(result).length == 0) result = false;
   if(errors.length) { this.lastErrors = errors; }
 
   /** If there is anything defined as an error - don't return the result! */
