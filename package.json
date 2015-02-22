@@ -1,6 +1,6 @@
 {
   "name": "object-schema",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "Object filter/schema for filtering, checking and validating javascript objects",
   "keywords": [
     "json",
@@ -9,7 +9,9 @@
     "filter",
     "schema"
   ],
-  "author": "Dan Larsen",
+  "author": {
+    "name": "Dan Larsen"
+  },
   "maintainers": [
     {
       "name": "Dan Larsen",
