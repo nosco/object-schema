@@ -340,6 +340,15 @@ ObjectSchema.prototype.definitionRegEx = function(field, definition, testObject,
 /***********\
  * FILTERS *
 \***********/
+ObjectSchema.prototype.filterDate = function(field, dataObject) {
+  if (dataObject[field]) {
+    var date = new Date(dataObject[field]);
+    if (date.toString() !== 'Invalid Date') {
+      return date;
+    }
+  }
+};
+
 ObjectSchema.prototype.filterObjectID = ObjectSchema.prototype.filterObjectId = function(field, dataObject) {
   var objectId = dataObject[field];
 
