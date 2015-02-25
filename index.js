@@ -145,6 +145,8 @@ ObjectSchema.prototype.validate = function(dataObject, errors, callback) {
     errors = null;
   }
 
+  delete testObject;
+
   if (callback) {
     callback(errors, result);
   }
