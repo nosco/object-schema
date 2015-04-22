@@ -166,7 +166,7 @@ ObjectSchema.prototype.runValidations = function(field, definition, testObject, 
     !definition.required &&
     (!testObject || typeof testObject[field] === 'undefined')) {
 
-    if (definition.default) return definition.default;
+    if (typeof definition.default !== 'undefined') return definition.default;
     else return;
   }
 
@@ -194,7 +194,7 @@ ObjectSchema.prototype.runValidations = function(field, definition, testObject, 
   if (definition.filters) {
     this.definitionFilters(field, definition, testObject, errors);
   }
-  if (definition.default) {
+  if (typeof definition.default !== 'undefined') {
     this.definitionDefault(field, definition, testObject, errors);
   }
 
@@ -271,7 +271,7 @@ ObjectSchema.prototype.definitionFilters = function(field, definition, testObjec
  */
 ObjectSchema.prototype.definitionDefault = function(field, definition, testObject, errors) {
   /** If no value is found, even after running filters, set the default */
-  if (definition.default && typeof testObject[field] === 'undefined') {
+  if (typeof definition.default !== 'undefined' && typeof testObject[field] === 'undefined') {
     testObject[field] = definition.default;
   }
 };
